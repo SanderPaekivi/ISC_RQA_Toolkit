@@ -1,6 +1,6 @@
 ###########################################################
 ### Generating ISC tables for modalities and localizers ###
-############                            ###################
+###########################################################
 
 
 ### From a DataFrame listing each individuals time-series under question (separated by modality and localizer or soundbite etc) called "subject_df" here, 
@@ -9,9 +9,12 @@ import scipy.stats as stats
 isc_df = pd.DataFrame([ [1-stats.pearsonr(subject_df[c], subject_df[y])[0] for y in subject_df.columns] for c in subject_df.columns], columns = subject_df.columns, index = subject_df.columns);
 
 
-###########                      ###############
-########### Generating RSA table ###############
-###########                      ###############
+
+
+
+###########################################################
+################ Generating RSA table #####################
+###########################################################
 
 ### From a DataFrame listing as columns every row-col combination of the ISC tables, as well as Model 1 and Model 2 values, called "df" here. 
 
@@ -20,6 +23,7 @@ import numpy as np
 
 ### Calculate simple correlation table between all columns
 cor_tab = df.corr(method = "kendall") 
+
 ### Calculate corresponding p-values, to be used as mask info during plotting
 p_tab = pd.DataFrame([ [stats.kendalltau(df[c], df[y])[1] for y in df.columns] for c in df.columns], columns = df.columns, index = df.columns)
 
@@ -29,9 +33,11 @@ p_tab = pd.DataFrame([ [stats.kendalltau(df[c], df[y])[1] for y in df.columns] f
 
 
 
-#############                   ################
-############### RQA via. PyRqa #################
-################################################
+
+
+###########################################################
+################### RQA via. PyRqa ########################
+###########################################################
 
 
 from pyrqa.time_series import TimeSeries
